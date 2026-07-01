@@ -11,3 +11,15 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Movies {
+  id          Int      @id @default(autoincrement())
+  title       String
+  category    String
+  genre       String
+  director    String
+  year        Int
+  imgUrl      String
+  rating      Float
+  description String
+}
