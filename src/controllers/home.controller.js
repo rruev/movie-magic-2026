@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { getAllMovies } from '../data/movies.data.js';
+import  moviesService  from '../services/movieService.js';
 
 const homeController = Router();
 
 homeController.get('/', async (req, res) => {
-    const movies = await getAllMovies();
+    const movies = await moviesService.getAll();
     console.log(movies);
 
     res.render('home', { title: 'Movie Magic 2026' });
