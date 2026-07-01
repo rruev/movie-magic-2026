@@ -12,6 +12,9 @@ app.set('views', './src/views');
 // Set up static files serving
 app.use(express.static('src/public'));
 
+//Middleware
+app.use(express.urlencoded({ extended: false }));
+
 // Define routes
 app.use(routes);
 

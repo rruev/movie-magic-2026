@@ -1,34 +1,42 @@
 import fs from 'fs/promises';
 import { readDb, writeDb } from './utils.data.js';
+import { prisma } from '../lib/prisma.js';
 
 const getAll = async () => {
-    return await readDb('movies');
+    return await prisma.movies.findMany();
 }
 
 const getById = async (id) => {
-    const movies = await readDb('movies');
-    return movies.find(m => m.id === id);
+    return await prisma.movies.findUnique({
+        where: {
+            id: id
+        }
+    });
 }
 
 const create = async (movieData) => {
-    const movies = await readDb('movies');
-    movies.push(movieData);
-    await writeDb('movies', movies);
+    const movies = await prisma.movies.create({
+        data: movieData
+    });
+    return movies;
 }
 
 const update = async (id, movieData) => {
-    const movies = await readDb('movies');
-    const index = movies.findIndex(m => m.id === id);
-    if (index !== -1) {
-        movies[index] = { ...movies[index], ...movieData };
-        await writeDb('movies', movies);
-    }
+    const movies = await prisma.movies.update({
+        where: {
+            id: id
+        },
+        data: movieData
+    });
 }
 
+
 const remove = async (id) => {
-    const movies = await readDb('movies');
-    const updatedMovies = movies.filter(m => m.id !== id);
-    await writeDb('movies', updatedMovies);
+    const movies = await prisma.movies.delete({
+        where: {
+            id: id
+        }
+    });
 }
 
 const moviesData = {
