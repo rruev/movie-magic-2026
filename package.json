@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "tsx src/index.js",
-    "dev": "tsx --watch src/index.js"
+    "dev": "tsx --watch src/index.js",
+    "seed": "tsx prisma/script.js"
   },
   "repository": {
     "type": "git",

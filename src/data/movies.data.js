@@ -3,11 +3,11 @@ import { readDb, writeDb } from './utils.data.js';
 import { prisma } from '../lib/prisma.js';
 
 const getAll = async () => {
-    return await prisma.movies.findMany();
+    return await prisma.movie.findMany();
 }
 
 const getById = async (id) => {
-    return await prisma.movies.findUnique({
+    return await prisma.movie.findUnique({
         where: {
             id: id
         }
@@ -15,14 +15,14 @@ const getById = async (id) => {
 }
 
 const create = async (movieData) => {
-    const movies = await prisma.movies.create({
+    const movies = await prisma.movie.create({
         data: movieData
     });
     return movies;
 }
 
 const update = async (id, movieData) => {
-    const movies = await prisma.movies.update({
+    const movies = await prisma.movie.update({
         where: {
             id: id
         },
@@ -32,7 +32,7 @@ const update = async (id, movieData) => {
 
 
 const remove = async (id) => {
-    const movies = await prisma.movies.delete({
+    const movies = await prisma.movie.delete({
         where: {
             id: id
         }
