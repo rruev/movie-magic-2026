@@ -13,8 +13,10 @@ homeController.get('/about', (req, res) => {
     res.render('about', { title: 'About Movie Magic 2026' });
 });
 
-homeController.get('/search', (req, res) => {
-    res.render('search', { title: 'Search Movies' });
+homeController.get('/search', async (req, res) => {
+    const movies = await moviesService.getAll();
+
+    res.render('search', { title: 'Search Movies', movies });
 });
 
 export default homeController;
