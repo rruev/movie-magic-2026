@@ -8,6 +8,9 @@ const getById = async (id) => {
     const movie = await prisma.movie.findUnique({
         where: {
             id: id
+        },
+        include: {
+            actors: true
         }
     });
 
@@ -40,12 +43,28 @@ const remove = async (id) => {
     });
 }
 
+const attachActor = async (movieId, actorId) => {
+    const movie = await prisma.movie.update({
+        where: {
+            id: movieId
+        },
+        data: {
+            actors: {
+                connect: { id: actorId }
+            }
+        }
+    });
+
+    return movie;
+}
+
 const moviesData = {
     getAll,
     getById,
     create,
     update,
-    remove
+    remove,
+    attachActor
 }
 
 export default moviesData;

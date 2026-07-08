@@ -28,12 +28,20 @@ const remove = async (id) => {
     return await moviesData.remove(id);
 };
 
+const attachActor = async (movieId, actorId) => {
+    const movieIdNumber = parseInt(movieId, 10);
+    const actorIdNumber = parseInt(actorId, 10);
+    
+    return await moviesData.attachActor(movieIdNumber, actorIdNumber);
+}
+
 const moviesService = {
     getAll,
     getById,
     create,
     update,
-    remove
+    remove,
+    attachActor
 };
 
 export default moviesService;
