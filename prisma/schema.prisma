@@ -31,6 +31,7 @@ model Movie {
 model Actor {
   id          Int      @id @default(autoincrement())
   name        String
+  age         Int
   born        String
   imgUrl      String
   nationality String
