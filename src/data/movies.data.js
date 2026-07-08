@@ -1,5 +1,3 @@
-import fs from 'fs/promises';
-import { readDb, writeDb } from './utils.data.js';
 import { prisma } from '../lib/prisma.js';
 
 const getAll = async () => {
@@ -7,27 +5,30 @@ const getAll = async () => {
 }
 
 const getById = async (id) => {
-    return await prisma.movie.findUnique({
+    const movie = await prisma.movie.findUnique({
         where: {
             id: id
         }
     });
+
+    return movie;
 }
 
 const create = async (movieData) => {
-    const movies = await prisma.movie.create({
+    const movie = await prisma.movie.create({
         data: movieData
     });
-    return movies;
+    return movie;
 }
 
 const update = async (id, movieData) => {
-    const movies = await prisma.movie.update({
+    const movie = await prisma.movie.update({
         where: {
             id: id
         },
         data: movieData
     });
+    return movie;
 }
 
 
@@ -44,7 +45,7 @@ const moviesData = {
     getById,
     create,
     update,
-    remove  
+    remove
 }
 
 export default moviesData;

@@ -18,9 +18,9 @@ movieController.get('/details/:id', async (req, res) => {
     const { id } = req.params;
     const movie = await moviesService.getById(id);
 
-    // if (!movie) {
-    //     return res.status(404).render('error', { title: 'Movie Not Found' });
-    // }
+    if (!movie) {
+        return res.status(404).render('404', { title: 'Movie Not Found' });
+    }
 
     res.render('movies/details', { title: movie.title, movie });
 });
