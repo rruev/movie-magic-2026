@@ -143,3 +143,4 @@ vite.config.ts.timestamp-*
 .vite/
 
 /generated/prisma
+/06-Magic-Movie-Workshop-Part-2-Resources
