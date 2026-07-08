@@ -18,7 +18,6 @@ movieController.post('/create', async (req, res) => {
 movieController.get('/details/:id', async (req, res) => {
     const { id } = req.params;
     const movie = await moviesService.getById(id);
-    console.log(movie);
 
     if (!movie) {
         return res.status(404).render('404', { title: 'Movie Not Found' });
@@ -30,7 +29,7 @@ movieController.get('/details/:id', async (req, res) => {
 movieController.get('/attach-actor/:id', async (req, res) => {
     const { id } = req.params;
     const movie = await moviesService.getById(id);
-    const actors = await actorsService.getAll();
+    const actors = await actorsService.getAll({ excludeIds: movie.actors.map(a => a.id) });
 
     if (!movie) {
         return res.status(404).render('404', { title: 'Movie Not Found' });

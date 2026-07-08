@@ -1,7 +1,7 @@
 import actorData from '../data/actor.data.js';
 
-const getAll = async () => {
-    return await actorData.getAll();
+const getAll = async (filter) => {
+    return await actorData.getAll(filter);
 }
 
 const create = async (actorsData) => {

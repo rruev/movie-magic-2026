@@ -1,7 +1,13 @@
 import { prisma } from '../lib/prisma.js';
 
-const getAll = async () => {
-    return await prisma.actor.findMany();
+const getAll = async (filter) => {
+    return await prisma.actor.findMany({
+        where: {
+            id: {
+                notIn: filter.excludeIds || [],
+            },
+        },
+    });
 }
 
 const create = async (actorsData) => {

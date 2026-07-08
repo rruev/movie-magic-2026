@@ -10,7 +10,15 @@ const getById = async (id) => {
             id: id
         },
         include: {
-            actors: true
+            actors: {
+                select: {
+                    id: true,
+                    name: true,
+                    age: true,
+                    born: true,
+                    imgUrl: true
+                }
+            }
         }
     });
 
