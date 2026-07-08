@@ -14,8 +14,8 @@ homeController.get('/about', (req, res) => {
 });
 
 homeController.get('/search', async (req, res) => {
-    const movies = await moviesService.getAll();
     const filter = req.query;
+    const movies = await moviesService.getAll(filter);
 
     res.render('search', { title: 'Search Movies', movies, filter });
 });

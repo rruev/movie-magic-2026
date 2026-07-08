@@ -1,6 +1,6 @@
 import actorData from '../data/actor.data.js';
 
-const getAll = async (filter) => {
+const getAll = async (filter = {}) => {
     return await actorData.getAll(filter);
 }
 

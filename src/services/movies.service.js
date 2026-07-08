@@ -1,7 +1,7 @@
 import moviesData from '../data/movies.data.js';
 
-const getAll = async () => {
-    return await moviesData.getAll();
+const getAll = async (filter = {}) => {
+    return await moviesData.getAll(filter);
 };
 
 const getById = async (id) => {

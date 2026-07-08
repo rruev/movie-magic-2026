@@ -1,7 +1,19 @@
 import { prisma } from '../lib/prisma.js';
 
-const getAll = async () => {
-    return await prisma.movie.findMany();
+const getAll = async (filter = {}) => {
+    return await prisma.movie.findMany({
+        where: {
+            year: filter.year ? parseInt(filter.year, 10) : undefined,
+            genre: {
+                equals: filter.genre || undefined,
+                case: 'insensitive'
+            },
+            title: {
+                contains: filter.search || undefined,
+                mode: 'insensitive'
+            }
+        }
+    });
 }
 
 const getById = async (id) => {
