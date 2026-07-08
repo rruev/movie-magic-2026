@@ -1,4 +1,5 @@
 import { Router } from "express";
+import actorService from "../services/actors.service.js";
 
 const actorController = Router();
 
@@ -6,9 +7,11 @@ actorController.get("/create", (req, res) => {
     res.render("actors/create", { title: "Create Actor" });
 });
 
-actorController.post("/create", (req, res) => {
-    const actorData = req.body;
-    console.log("Actor Data:", actorData);
+actorController.post("/create", async (req, res) => {
+    const actorsData = req.body;
+    console.log("Actors Data:", actorsData);
+
+    await actorService.create(actorsData);
 
     res.redirect("/");
 });
