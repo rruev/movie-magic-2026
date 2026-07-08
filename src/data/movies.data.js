@@ -6,7 +6,7 @@ const getAll = async (filter = {}) => {
             year: filter.year ? parseInt(filter.year, 10) : undefined,
             genre: {
                 equals: filter.genre || undefined,
-                case: 'insensitive'
+                mode: 'insensitive'
             },
             title: {
                 contains: filter.search || undefined,
