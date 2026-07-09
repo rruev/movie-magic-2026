@@ -5,15 +5,21 @@
             <h2>{{movie.title}}</h2>
             <img class="movie" src="{{movie.imgUrl}}" alt="{{movie.title}}">
             <form method="POST">
-                <label for="cast">Cast</label>
-                <select id="cast" name="actors">
-                    <option value="none" selected>--------</option>
-                    {{#each actors}}
-                    <option value="{{id}}">{{name}}</option>
-                    {{/each}}
-                </select>
-                <label for="name-in-movie">Name in Movie:</label>
-                <input type="text" class="inputFields" id="name-in-movie" name="nameInMovie" />
+                <div>
+                    <label for="cast">Cast</label>
+                    <select id="cast" name="actors">
+                        <option value="none" selected>--------</option>
+                        {{#each actors}}
+                        <option value="{{id}}">{{name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div>
+                    <div id="align">
+                        <label for="name-in-movie">Name in Movie</label>
+                        <input type="text" id="name-in-movie" name="nameInMovie" />
+                    </div>
+                </div>
                 <div id="center-btn">
                     <button id="create-btn">Add Cast</button>
                 </div>
