@@ -1,6 +1,6 @@
 import { prisma } from '../lib/prisma.js';
 
-const getAll = async ( filter = {}) => {
+const getAll = async ( filter = {} ) => {
     return await prisma.actor.findMany({
         where: {
             id: {

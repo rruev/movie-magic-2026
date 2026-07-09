@@ -9,7 +9,6 @@ actorController.get("/create", (req, res) => {
 
 actorController.post("/create", async (req, res) => {
     const actorsData = req.body;
-    console.log("Actors Data:", actorsData);
 
     await actorService.create(actorsData);
 

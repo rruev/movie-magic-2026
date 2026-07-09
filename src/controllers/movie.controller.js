@@ -29,7 +29,7 @@ movieController.get('/details/:id', async (req, res) => {
 movieController.get('/attach-actor/:id', async (req, res) => {
     const { id } = req.params;
     const movie = await moviesService.getById(id);
-    const actors = await actorsService.getAll({ excludeIds: movie.actors.map(a => a.id) });
+    const actors = await actorsService.getAll({ excludeIds: movie.actors.map(a => a.actor.id) });
 
     if (!movie) {
         return res.status(404).render('404', { title: 'Movie Not Found' });
@@ -41,8 +41,9 @@ movieController.get('/attach-actor/:id', async (req, res) => {
 movieController.post('/attach-actor/:id', async (req, res) => {
     const { id } = req.params;
     const actorId = req.body.actors;
+    const nameInMovie = req.body.nameInMovie;
 
-    await moviesService.attachActor(id, actorId);
+    await moviesService.attachActor(id, actorId, nameInMovie);
     res.redirect(`/movies/details/${id}`);
 });
 

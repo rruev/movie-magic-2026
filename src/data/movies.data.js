@@ -23,12 +23,8 @@ const getById = async (id) => {
         },
         include: {
             actors: {
-                select: {
-                    id: true,
-                    name: true,
-                    age: true,
-                    born: true,
-                    imgUrl: true
+                include: {
+                    actor: true
                 }
             }
         }
@@ -63,14 +59,21 @@ const remove = async (id) => {
     });
 }
 
-const attachActor = async (movieId, actorId) => {
+const attachActor = async (movieId, actorId, nameInMovie) => {
     const movie = await prisma.movie.update({
         where: {
             id: movieId
         },
         data: {
             actors: {
-                connect: { id: actorId }
+                create: {
+                    actor: {
+                        connect: {
+                            id: actorId
+                        }
+                    },
+                    nameInMovie: nameInMovie
+                }
             }
         }
     });
