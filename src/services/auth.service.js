@@ -14,8 +14,25 @@ const register = async (userRegData) => {
     });
 }
 
+const login = async (userLoginData) => {
+    const user = await userData.getUserByEmail(userLoginData.email);
+
+    if (!user) {
+        throw new Error('Invalid email or password');
+    }
+
+    const isPasswordValid = await bcrypt.compare(userLoginData.password, user.password);
+
+    if (!isPasswordValid) {
+        throw new Error('Invalid password');
+    }
+
+    return user;
+}
+
 const authService = {
-    register
+    register,
+    login
 }
 
 export default authService;
