@@ -2,6 +2,7 @@ import { Router } from 'express';
 import moviesService from '../services/movies.service.js';
 import actorsService from '../services/actors.service.js';
 import { isAuthenticated } from '../middleware/auth.middleware.js';
+import { prepareMovieForEdit } from '../utils/views.utils.js';
 
 const movieController = Router();
 
@@ -27,7 +28,6 @@ movieController.get('/details/:id', async (req, res) => {
     }
 
     const isOwner = movie.userId && movie.userId === userId;
-    console.log(isOwner);
 
     res.render('movies/details', { title: movie.title, movie, isOwner });
 });
@@ -74,7 +74,10 @@ movieController.get('/edit/:id', isAuthenticated, async (req, res) => {
         return res.status(403).render('403', { title: 'Unauthorized' });
     }
 
-    res.render('movies/edit', { title: `Edit ${movie.title}`, movie });
+    // prepare the movie data for the edit form
+    const preparedMovie = prepareMovieForEdit(movie);
+
+    res.render('movies/edit', { title: `Edit ${movie.title}`, movie: preparedMovie });
 });
 
 movieController.post('/edit/:id', isAuthenticated, async (req, res) => {
