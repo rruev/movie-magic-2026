@@ -1,14 +1,15 @@
 import { Router } from 'express';
 import moviesService from '../services/movies.service.js';
 import actorsService from '../services/actors.service.js';
+import { isAuthenticated } from '../middleware/auth.middleware.js';
 
 const movieController = Router();
 
-movieController.get('/create', (req, res) => {
+movieController.get('/create', isAuthenticated, (req, res) => {
     res.render('movies/create', { title: 'Create a Movie' });
 });
 
-movieController.post('/create', async (req, res) => {
+movieController.post('/create', isAuthenticated, async (req, res) => {
     const movieData = req.body;
 
     await moviesService.create(movieData);
@@ -26,7 +27,7 @@ movieController.get('/details/:id', async (req, res) => {
     res.render('movies/details', { title: movie.title, movie });
 });
 
-movieController.get('/attach-actor/:id', async (req, res) => {
+movieController.get('/attach-actor/:id', isAuthenticated, async (req, res) => {
     const { id } = req.params;
     const movie = await moviesService.getById(id);
     const actors = await actorsService.getAll({ excludeIds: movie.actors.map(a => a.actor.id) });
@@ -38,7 +39,7 @@ movieController.get('/attach-actor/:id', async (req, res) => {
     res.render('actors/attach', { title: `Attach Actor to ${movie.title}`, movie, actors });
 });
 
-movieController.post('/attach-actor/:id', async (req, res) => {
+movieController.post('/attach-actor/:id', isAuthenticated, async (req, res) => {
     const { id } = req.params;
     const actorId = req.body.actors;
     const nameInMovie = req.body.nameInMovie;

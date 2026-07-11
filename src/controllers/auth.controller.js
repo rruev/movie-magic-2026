@@ -22,8 +22,8 @@ authController.get("/login", (req, res) => {
 authController.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
-    const user = await authService.login({ email, password });
-    console.log(user);
+    const token = await authService.login({ email, password });
+    res.cookie("auth_token", token, { httpOnly: true });
 
     res.redirect("/");
 });
