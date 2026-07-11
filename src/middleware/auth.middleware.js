@@ -27,3 +27,10 @@ export const isAuthenticated = (req, res, next) => {
     }
     next();
 }
+
+export const isGuest = (req, res, next) => {
+    if (req.user) {
+        return res.redirect('/');
+    }
+    next();
+}
