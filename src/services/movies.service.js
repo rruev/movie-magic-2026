@@ -17,15 +17,38 @@ const create = async (movieData) => {
     return await moviesData.create(movieData);
 };
 
-const update = async (id, movieData) => {
+const update = async (id, movieData, userId) => {
+    const movieId = parseInt(id, 10);
     movieData.year = parseInt(movieData.year, 10);
     movieData.rating = parseFloat(movieData.rating);
+    movieData.userId = userId;
 
-    return await moviesData.update(id, movieData);
+    const movie = await moviesData.getById(movieId);
+
+    if (!movie) {
+        throw new Error('Movie not found');
+    }
+
+    if (movie.userId !== userId) {
+        throw new Error('Unauthorized to update this movie');
+    }
+
+    return await moviesData.update(movieId, movieData, userId);
 };
 
-const remove = async (id) => {
-    return await moviesData.remove(id);
+const remove = async (id, userId) => {
+    const movieId = parseInt(id, 10);
+    const movie = await moviesData.getById(movieId);
+
+    if (!movie) {
+        throw new Error('Movie not found');
+    }
+
+    if (movie.userId !== userId) {
+        throw new Error('Unauthorized to delete this movie');
+    }
+
+    return await moviesData.remove(movieId, userId);
 };
 
 const attachActor = async (movieId, actorId, nameInMovie) => {

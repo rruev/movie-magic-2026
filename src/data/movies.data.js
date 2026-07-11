@@ -40,10 +40,11 @@ const create = async (movieData) => {
     return movie;
 }
 
-const update = async (id, movieData) => {
+const update = async (id, movieData, userId) => {
     const movie = await prisma.movie.update({
         where: {
-            id: id
+            id: id,
+            userId: userId
         },
         data: movieData
     });
@@ -51,10 +52,11 @@ const update = async (id, movieData) => {
 }
 
 
-const remove = async (id) => {
-    const movies = await prisma.movie.delete({
+const remove = async (id, userId) => {
+    return await prisma.movie.delete({
         where: {
-            id: id
+            id: id,
+            userId: userId
         }
     });
 }

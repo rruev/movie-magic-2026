@@ -53,4 +53,37 @@ movieController.post('/attach-actor/:id', isAuthenticated, async (req, res) => {
     res.redirect(`/movies/details/${id}`);
 });
 
+movieController.get('/delete/:id', isAuthenticated, async (req, res) => {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    await moviesService.remove(id, userId);
+    res.redirect('/');
+});
+
+movieController.get('/edit/:id', isAuthenticated, async (req, res) => {
+    const { id } = req.params;
+    const movie = await moviesService.getById(id);
+    const userId = req.user.id;
+
+    if (!movie) {
+        return res.status(404).render('404', { title: 'Movie Not Found' });
+    }
+
+    if (movie.userId !== userId) {
+        return res.status(403).render('403', { title: 'Unauthorized' });
+    }
+
+    res.render('movies/edit', { title: `Edit ${movie.title}`, movie });
+});
+
+movieController.post('/edit/:id', isAuthenticated, async (req, res) => {
+    const { id } = req.params;
+    const movieData = req.body;
+    const userId = req.user.id;
+
+    await moviesService.update(id, movieData, userId);
+    res.redirect(`/movies/details/${id}`);
+});
+
 export default movieController;
