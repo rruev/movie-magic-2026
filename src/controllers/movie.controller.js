@@ -20,12 +20,16 @@ movieController.post('/create', isAuthenticated, async (req, res) => {
 movieController.get('/details/:id', async (req, res) => {
     const { id } = req.params;
     const movie = await moviesService.getById(id);
+    const userId = req?.user?.id;
 
     if (!movie) {
         return res.status(404).render('404', { title: 'Movie Not Found' });
     }
 
-    res.render('movies/details', { title: movie.title, movie });
+    const isOwner = movie.userId && movie.userId === userId;
+    console.log(isOwner);
+
+    res.render('movies/details', { title: movie.title, movie, isOwner });
 });
 
 movieController.get('/attach-actor/:id', isAuthenticated, async (req, res) => {

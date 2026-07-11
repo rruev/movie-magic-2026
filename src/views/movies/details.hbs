@@ -22,12 +22,14 @@
                 <p class="disc">Description:{{movie.description}}</p>
                 <p class="card-category">Category: {{movie.category}}</p>
             </div>
-                <div class="details-btn">
-                    <button id="edit-button" >Edit</button>
-                    <button id="delete-button">Delete</button>
-                    <button id="attach-button">Attach Actor</button>
-                    <a href="/movies/attach-actor/{{movie.id}}" class="details">Attach Actor</a>
-                </div>
+            {{#if isOwner}}
+            <div class="details-btn">
+                <button id="edit-button">Edit</button>
+                <button id="delete-button">Delete</button>
+                <button id="attach-button">Attach Actor</button>
+                <a href="/movies/attach-actor/{{movie.id}}" class="details">Attach Actor</a>
+            </div>
+            {{/if}}
         </div>
         <div class="card_right">
             <img src="{{movie.imgUrl}}" alt="image">
