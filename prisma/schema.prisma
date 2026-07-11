@@ -24,6 +24,9 @@ model Movie {
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
+  userId      Int?
+
+  owner User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   actors ActorMovie[]
 
@@ -49,8 +52,8 @@ model ActorMovie {
   movieId     Int
   nameInMovie String
 
-  actor Actor @relation(fields: [actorId], references: [id]) //TO DO ondelete: Cascade
-  movie Movie @relation(fields: [movieId], references: [id])
+  actor Actor @relation(fields: [actorId], references: [id], onDelete: Cascade)
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
 
   @@id([actorId, movieId])
   @@map("actor_movies")
@@ -62,6 +65,8 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
+  movies Movie[]
 
   @@map("users")
 }

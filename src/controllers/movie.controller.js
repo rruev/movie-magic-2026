@@ -11,8 +11,9 @@ movieController.get('/create', isAuthenticated, (req, res) => {
 
 movieController.post('/create', isAuthenticated, async (req, res) => {
     const movieData = req.body;
+    const userId = req.user.id; 
 
-    await moviesService.create(movieData);
+    await moviesService.create({ ...movieData, userId: userId });
     res.redirect('/');
 });
 
