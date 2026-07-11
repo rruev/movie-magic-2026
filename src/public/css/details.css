@@ -94,7 +94,7 @@
 }
 
 .social-btn > .edit-btn,
-.del-btn {
+.del-btn, .attach-btn {
   color: black;
   font-weight: bold;
   border: none;
