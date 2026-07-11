@@ -1,9 +1,6 @@
 import userData from '../data/user.data.js';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { generateAuthToken } from '../utils/token.utils.js';
 
 const register = async (userRegData) => {
     if (userRegData.password !== userRegData.rePassword) {
@@ -12,10 +9,12 @@ const register = async (userRegData) => {
 
     const hashedPassword = await bcrypt.hash(userRegData.password, 10);
 
-    return await userData.createUser({
+    const user = await userData.createUser({
         ...userRegData,
         password: hashedPassword
     });
+
+    return generateAuthToken(user);
 }
 
 const login = async (userLoginData) => {
@@ -31,14 +30,7 @@ const login = async (userLoginData) => {
         throw new Error('Invalid email or password');
     }
 
-    const tokenPayload = {
-        id: user.id,
-        email: user.email
-    };
-
-    const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    return token;
+    return generateAuthToken(user);
 }
 
 const authService = {
