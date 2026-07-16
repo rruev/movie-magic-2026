@@ -11,33 +11,41 @@
                 <li>
                     <label for="title">Title:</label>
                     <input type="text" class="inputFields" id="title" name="title" value="{{movie.title}}" />
+                    {{> errors errors=errors.title}}
                 </li>
                 <li>
                     {{> createSelect}}
+                    {{> errors errors=errors.category}}
                 </li>
                 <li>
                     <label for="genre">Genre:</label>
                     <input type="text" class="inputFields" id="genre" name="genre" value="{{movie.genre}}" />
+                    {{> errors errors=errors.genre}}
                 </li>
                 <li>
                     <label for="director">Director:</label>
                     <input type="text" class="inputFields" id="director" name="director" value="{{movie.director}}" />
+                    {{> errors errors=errors.director}}
                 </li>
                 <li>
                     <label for="date">Year:</label>
                     <input type="number" class="inputFields" id="year" name="year" value="{{movie.year}}" />
+                    {{> errors errors=errors.year}}
                 </li>
                 <li>
                     <label for="image">Movie Poster:</label>
                     <input type="text" class="inputFields" id="image" name="imgUrl" value="{{movie.imgUrl}}" />
+                    {{> errors errors=errors.imgUrl}}
                 </li>
                 <li>
                     <label for="image">Rating:</label>
                     <input type="text" class="inputFields" id="rating" name="rating" value="{{movie.rating}}" />
+                    {{> errors errors=errors.rating}}
                 </li>
                 <li>
                     <label for="description">Description:</label>
-                    <textarea id="description" class="inputFields" name="description" value="{{movie.description}}"></textarea>
+                    <textarea id="description" class="inputFields" name="description">{{movie.description}}</textarea>
+                    {{> errors errors=errors.description}}
                 </li>
 
                 <li id="center-btn">
