@@ -3,6 +3,8 @@ import moviesService from '../services/movies.service.js';
 import actorsService from '../services/actors.service.js';
 import { isAuthenticated } from '../middleware/auth.middleware.js';
 import { prepareMovieForEdit } from '../utils/views.utils.js';
+import { createMovieSchema } from '../schemas/movie.schema.js';
+import * as z from 'zod';
 
 const movieController = Router();
 
@@ -12,9 +14,21 @@ movieController.get('/create', isAuthenticated, (req, res) => {
 
 movieController.post('/create', isAuthenticated, async (req, res) => {
     const movieData = req.body;
-    const userId = req.user.id; 
+    const userId = req.user.id;
 
-    await moviesService.create({ ...movieData, userId: userId });
+    try {
+        const cleanMovieData = createMovieSchema.parse(movieData);
+        await moviesService.create({ ...cleanMovieData, userId: userId });
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            const errors = z.flattenErrors(error).fieldErrors;
+            console.log('Validation errors:', errors);
+            return res.status(400).render('movies/create', { title: 'Create a Movie', errors });
+        }
+        
+        console.error('Error creating movie:', error);
+    }
+
     res.redirect('/');
 });
 

@@ -14,8 +14,7 @@ export const createMovieSchema = z.object({
         .min(1900, { message: "Year must be greater than or equal to 1900" })
         .max(new Date().getFullYear(), { message: `Year must be less than or equal to ${new Date().getFullYear()}` }),
     imgUrl: z.string()
-        .regex(/^https?:\/\//, { message: "Image URL must be a valid URL" })
-        .httpUrl({ message: "Image URL must be a valid URL" }),
+        .regex(/^https?:\/\//, { message: "Image URL must be a valid URL" }),
     rating: z.number()
         .min(0, { message: "Rating must be greater than or equal to 0" })
         .max(10, { message: "Rating must be less than or equal to 10" }),

@@ -1,8 +1,9 @@
+import "dotenv/config";
 import { prisma } from "../src/lib/prisma.js";
 
 async function main() {
   // Seed wiht some data
-  const movies = await prisma.movie.createManyAndReturn({
+  const movies = await prisma.movie.createMany({
     data: [
       {
         title: "Jungle Cruise",
@@ -37,10 +38,9 @@ async function main() {
     ]
   })
 
-  const actors = await prisma.actor.createManyAndReturn({
+  const actors = await prisma.actor.createMany({
     data: [
       {
-        id: 1,
         age: 54,
         born: "Hayward, California, United States",
         imgUrl: "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcRxBMYzVhLl8JWS4L8EmfN_WeNGjvmBMBYlxreiHTiBU3ATBXJVamqmFaAkJX-_BuB0Mj7ZrjKjAxXn_acCIBRyMYPuEHvJ4-SYF8XRrLyjfPpXt0Xzjboy0hp7zzvgMPs_IBUu3FrSm7Ye&s=19",
@@ -48,7 +48,6 @@ async function main() {
         createdAt: new Date("2026-07-09T09:47:34.976Z"),
       },
       {
-        id: 2,
         age: 43,
         born: "London, United Kingdom",
         imgUrl: "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQeJ6MXDjdu1j7EpOvCcPCekeTrdPG_hHFkP7eu7GJndQB314bb_XnBbl2CAWDOltnn5BrEB7kVd3EAvow1eGwgjcOThYFKG2PvXXnobUGVkfqRX0L6-gEQYG-R3DUf9cfXzAfGMTXiqW-m&s=19",
@@ -56,7 +55,6 @@ async function main() {
         createdAt: new Date("2026-07-09T09:52:46.681Z"),
       },
       {
-        id: 3,
         age: 26,
         born: "Atlanta, Georgia, USA",
         imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3Rw3zRfydneoIRpJlqgeuw59uGCc8Xrix6UNZpMKEIB1_itXnFB7IQ4ol1U9AJ7NZmhZe-GTJ6ep0XSrAMdAGB0NJeHZvgK_RfhGzOmyw&s=10",
