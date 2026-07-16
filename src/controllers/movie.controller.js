@@ -21,9 +21,11 @@ movieController.post('/create', isAuthenticated, async (req, res) => {
         await moviesService.create({ ...cleanMovieData, userId: userId });
     } catch (error) {
         if (error instanceof z.ZodError) {
-            const errors = z.flattenErrors(error).fieldErrors;
-            console.log('Validation errors:', errors);
-            return res.status(400).render('movies/create', { title: 'Create a Movie', errors });
+            const errors = z.flattenError(error).fieldErrors;
+
+            const preparedMovieData = prepareMovieForEdit(movieData);
+
+            return res.status(400).render('movies/create', { title: 'Create a Movie', movie: preparedMovieData, errors });
         }
         
         console.error('Error creating movie:', error);
