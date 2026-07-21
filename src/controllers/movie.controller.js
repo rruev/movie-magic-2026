@@ -9,7 +9,9 @@ import * as z from 'zod';
 const movieController = Router();
 
 movieController.get('/create', isAuthenticated, (req, res) => {
-    res.render('movies/create', { title: 'Create a Movie' });
+    const preparedMovie = prepareMovieForEdit({});
+
+    res.render('movies/create', { title: 'Create a Movie', movie: preparedMovie });
 });
 
 movieController.post('/create', isAuthenticated, async (req, res) => {
@@ -20,15 +22,13 @@ movieController.post('/create', isAuthenticated, async (req, res) => {
         const cleanMovieData = createMovieSchema.parse(movieData);
         await moviesService.create({ ...cleanMovieData, userId: userId });
     } catch (error) {
-        if (error instanceof z.ZodError) {
-            const errors = z.flattenError(error).fieldErrors;
-
-            const preparedMovieData = prepareMovieForEdit(movieData);
-
-            return res.status(400).render('movies/create', { title: 'Create a Movie', movie: preparedMovieData, errors });
+        console.error(error.name, error.message);
+        switch (error.name) {
+            case 'ZodError':
+                const errors = z.flattenError(error).fieldErrors;
+                const preparedMovieData = prepareMovieForEdit(movieData);
+                return res.status(400).render('movies/create', { title: 'Create a Movie', movie: preparedMovieData, errors });
         }
-        
-        console.error('Error creating movie:', error);
     }
 
     res.redirect('/');
