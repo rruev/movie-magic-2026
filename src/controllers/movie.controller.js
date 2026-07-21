@@ -5,6 +5,7 @@ import { isAuthenticated } from '../middleware/auth.middleware.js';
 import { prepareMovieForEdit } from '../utils/views.utils.js';
 import { createMovieSchema } from '../schemas/movie.schema.js';
 import * as z from 'zod';
+import { title } from 'node:process';
 
 const movieController = Router();
 
@@ -22,15 +23,26 @@ movieController.post('/create', isAuthenticated, async (req, res) => {
         const cleanMovieData = createMovieSchema.parse(movieData);
         await moviesService.create({ ...cleanMovieData, userId: userId });
     } catch (error) {
-        console.error(error.name, error.message);
-        switch (error.name) {
-            case 'ZodError':
-                const errors = z.flattenError(error).fieldErrors;
-                const preparedMovieData = prepareMovieForEdit(movieData);
-                return res.status(400).render('movies/create', { title: 'Create a Movie', movie: preparedMovieData, errors });
-        }
-    }
+        let errors = {};
+        let errorMessage = null;
+        const preparedMovieData = prepareMovieForEdit(movieData);
 
+        if (error.name === 'ZodError') {
+            errors = z.flattenError(error).fieldErrors;
+        } else if (error.name === 'PrismaClientKnownRequestError') {
+            switch (error.code) {
+                case 'P2002':
+                    errorMessage = 'A movie with this title already exists.';
+                    break;
+                default:
+                    errorMessage = 'An unexpected error occurred. Please try again later.';
+            }
+        } else {
+            errorMessage = 'An unexpected error occurred. Please try again later.';
+        }
+        
+        return res.status(400).render('movies/create', { title: 'Create a Movie', movie: preparedMovieData, errors, error: errorMessage });
+    }
     res.redirect('/');
 });
 
