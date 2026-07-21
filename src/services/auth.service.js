@@ -3,10 +3,6 @@ import bcrypt from 'bcrypt';
 import { generateAuthToken } from '../utils/token.utils.js';
 
 const register = async (userRegData) => {
-    if (userRegData.password !== userRegData.rePassword) {
-        throw new Error('Passwords do not match');
-    }
-
     const hashedPassword = await bcrypt.hash(userRegData.password, 10);
 
     const user = await userData.createUser({
