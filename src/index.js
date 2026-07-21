@@ -10,7 +10,14 @@ import routes from './routes.js';
 const app = express();
 
 // Set up handlebars as the view engine
-app.engine('hbs', engine({ extname: '.hbs' }));
+app.engine('hbs', engine({ 
+  extname: '.hbs',
+  helpers:{
+    setTitle(title) {
+      this.pageTitle = title;
+    }
+  }
+}));
 app.set('view engine', 'hbs');
 app.set('views', './src/views');
 

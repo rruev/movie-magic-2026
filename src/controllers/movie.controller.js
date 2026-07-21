@@ -5,14 +5,13 @@ import { isAuthenticated } from '../middleware/auth.middleware.js';
 import { prepareMovieForEdit } from '../utils/views.utils.js';
 import { createMovieSchema } from '../schemas/movie.schema.js';
 import * as z from 'zod';
-import { title } from 'node:process';
 
 const movieController = Router();
 
 movieController.get('/create', isAuthenticated, (req, res) => {
     const preparedMovie = prepareMovieForEdit({});
 
-    res.render('movies/create', { title: 'Create a Movie', movie: preparedMovie });
+    res.render('movies/create', { movie: preparedMovie });
 });
 
 movieController.post('/create', isAuthenticated, async (req, res) => {
@@ -41,7 +40,7 @@ movieController.post('/create', isAuthenticated, async (req, res) => {
             errorMessage = 'An unexpected error occurred. Please try again later.';
         }
         
-        return res.status(400).render('movies/create', { title: 'Create a Movie', movie: preparedMovieData, errors, error: errorMessage });
+        return res.status(400).render('movies/create', { movie: preparedMovieData, errors, error: errorMessage });
     }
     res.redirect('/');
 });
@@ -52,12 +51,12 @@ movieController.get('/details/:id', async (req, res) => {
     const userId = req?.user?.id;
 
     if (!movie) {
-        return res.status(404).render('404', { title: 'Movie Not Found' });
+        return res.status(404).render('404');
     }
 
     const isOwner = movie.userId && movie.userId === userId;
 
-    res.render('movies/details', { title: movie.title, movie, isOwner });
+    res.render('movies/details', { movie, isOwner });
 });
 
 movieController.get('/attach-actor/:id', isAuthenticated, async (req, res) => {
@@ -66,10 +65,10 @@ movieController.get('/attach-actor/:id', isAuthenticated, async (req, res) => {
     const actors = await actorsService.getAll({ excludeIds: movie.actors.map(a => a.actor.id) });
 
     if (!movie) {
-        return res.status(404).render('404', { title: 'Movie Not Found' });
+        return res.status(404).render('404');
     }
 
-    res.render('actors/attach', { title: `Attach Actor to ${movie.title}`, movie, actors });
+    res.render('actors/attach', { movie, actors });
 });
 
 movieController.post('/attach-actor/:id', isAuthenticated, async (req, res) => {
@@ -95,7 +94,7 @@ movieController.get('/edit/:id', isAuthenticated, async (req, res) => {
     const userId = req.user.id;
 
     if (!movie) {
-        return res.status(404).render('404', { title: 'Movie Not Found' });
+        return res.status(404).render('404');
     }
 
     if (movie.userId !== userId) {
@@ -105,7 +104,7 @@ movieController.get('/edit/:id', isAuthenticated, async (req, res) => {
     // prepare the movie data for the edit form
     const preparedMovie = prepareMovieForEdit(movie);
 
-    res.render('movies/edit', { title: `Edit ${movie.title}`, movie: preparedMovie });
+    res.render('movies/edit', { movie: preparedMovie });
 });
 
 movieController.post('/edit/:id', isAuthenticated, async (req, res) => {

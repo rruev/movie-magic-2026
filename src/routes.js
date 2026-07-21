@@ -13,7 +13,7 @@ routes.use('/actors', actorController);
 routes.use('/auth', authController)
 
 routes.all('*url', (req, res) => {
-    res.render('404', { title: 'Page Not Found' });
+    res.render('404');
 });
 
 export default routes;

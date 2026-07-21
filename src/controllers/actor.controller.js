@@ -7,7 +7,7 @@ import { getErrorMessage } from "../utils/error.util.js";
 const actorController = Router();
 
 actorController.get("/create", isAuthenticated, (req, res) => {
-    res.render("actors/create", { title: "Create Actor" });
+    res.render("actors/create");
 });
 
 actorController.post("/create", isAuthenticated, async (req, res) => {
@@ -18,7 +18,7 @@ actorController.post("/create", isAuthenticated, async (req, res) => {
     } catch (error) {
         // Handle validation or other errors here
         const errorMessage = getErrorMessage(error);
-        return res.status(400).render("actors/create", { title: "Create Actor", error: errorMessage, actorsData: req.body });
+        return res.status(400).render("actors/create", { error: errorMessage, actorsData: req.body });
     }
 
 });

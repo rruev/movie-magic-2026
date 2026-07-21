@@ -6,18 +6,18 @@ const homeController = Router();
 homeController.get('/', async (req, res) => {
     const movies = await moviesService.getAll();
 
-    res.render('home', { title: 'Movie Magic 2026', movies });
+    res.render('home');
 });
 
 homeController.get('/about', (req, res) => {
-    res.render('about', { title: 'About Movie Magic 2026' });
+    res.render('about');
 });
 
 homeController.get('/search', async (req, res) => {
     const filter = req.query;
     const movies = await moviesService.getAll(filter);
 
-    res.render('search', { title: 'Search Movies', movies, filter });
+    res.render('search', { movies, filter });
 });
 
 export default homeController;

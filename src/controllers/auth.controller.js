@@ -7,7 +7,7 @@ import { getErrorMessage } from "../utils/error.util.js";
 const authController = Router();
 
 authController.get("/register", isGuest, (req, res) => {
-    res.render("auth/register", { title: "Register" });
+    res.render("auth/register");
 });
 
 authController.post("/register", isGuest, async (req, res) => {
@@ -20,13 +20,13 @@ authController.post("/register", isGuest, async (req, res) => {
         res.redirect("/");
     } catch (error) {
         const errorMessage = getErrorMessage(error);
-        res.status(400).render("auth/register", { title: "Register", error: errorMessage, userData: req.body });
+        res.status(400).render("auth/register", { error: errorMessage, userData: req.body });
     }
 
 })
 
 authController.get("/login", isGuest, (req, res) => {
-    res.render("auth/login", { title: "Login" });
+    res.render("auth/login");
 });
 
 authController.post("/login", isGuest, async (req, res) => {
