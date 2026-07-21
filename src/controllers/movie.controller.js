@@ -32,7 +32,7 @@ movieController.post('/create', isAuthenticated, async (req, res) => {
         } else if (error.name === 'PrismaClientKnownRequestError') {
             switch (error.code) {
                 case 'P2002':
-                    errorMessage = 'A movie with this title already exists.';
+                    errors = { title: ['A movie with this title already exists.'] };
                     break;
                 default:
                     errorMessage = 'An unexpected error occurred. Please try again later.';
